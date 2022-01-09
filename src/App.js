@@ -29,27 +29,55 @@ function App(props) {
 
     return (
         <div className="App">
-            <h1>Weather App</h1>
-                <h2>{`City: ${props.city}`}</h2>
-                <div className={"img-container"}>
-                    <label>{props.weather.main}</label>
-                    <img src={props.weather.icon} alt="#"/>
+            <div className="weather-card">
+                <div className="top">
+                    <div className="wrapper">
+                        <div className="myNav">
+                            <a className="lnr lnr-grade"
+                               onClick={
+                                   () => props.main.unity === '°C' ? props.setOnFahrenheit() : props.setOnCelsius()
+                               }>
+                                {props.main.unity === '°C' ? "°F" : "°C"}
+                            </a>
+                        </div>
+                        <h1 className="heading">{props.weather.main}</h1>
+                        <h3 className="location">{`${props.city}, ${props.country}`}</h3>
+                        <p className="temp">
+                            <span className="temp-value">{props.main.temp}</span>
+                            <span className="temp-type">{props.main.unity}</span>
+                        </p>
+                        <div className={"img-container"}>
+                            <img src={props.weather.icon} alt="#"/>
+                        </div>
+                    </div>
                 </div>
-                <ul style={{listStyleType: "none"}}>
-                    <li>{`Temperature: ${props.main.temp}`}</li>
-                    <li>{`Feels Like: ${props.main.feels_like}`}</li>
-                    <li>{`Unity: ${props.main.unity}`}</li>
-                    <li>{}</li>
-                    <li>{}</li>
-                    <li>{}</li>
-                </ul>
-            <button onClick={
-                () => props.main.unity === '°C' ? props.setOnFahrenheit() : props.setOnCelsius()
-            }>
-                {props.main.unity === '°C' ? "to °F" : "to °C"}
-            </button>
+                <div className="bottom">
+                    <div className="wrapper">
+                        <ul className="forecast">
+                            <li>
+                                <span>Feels Like: </span>
+                                <span>{props.main.feels_like}</span>
+                            </li>
+                            <li>
+                                <span>Min: </span>
+                                <span>{props.main.temp_min}</span>
+                            </li>
+                            <li>
+                                <span>Max: </span>
+                                <span>{props.main.temp_max}</span>
+                            </li>
+                            <li>
+                                <span>Humidity: </span>
+                                <span>{props.main.humidity}</span>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    );
+    )
+        ;
 }
 
 // React-Redux Connexion
@@ -93,12 +121,12 @@ const mapDispatchToProps = (dispatch) => {
 const Provider = ReactRedux.Provider;
 const Container = ReactRedux.connect(mapStateToProps, mapDispatchToProps)(App);
 
-function AppWrapper(){
-        return (
-            <Provider store={store}>
-                <Container/>
-            </Provider>
-        );
+function AppWrapper() {
+    return (
+        <Provider store={store}>
+            <Container/>
+        </Provider>
+    );
 }
 
 // End of React-Redux Connection
